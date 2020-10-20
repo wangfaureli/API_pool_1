@@ -101,4 +101,10 @@ defmodule Theme01.WorkingTimes do
   def change_working_time(%WorkingTime{} = working_time, attrs \\ %{}) do
     WorkingTime.changeset(working_time, attrs)
   end
+
+  def get_time(time) do
+    {:ok, result} = Timex.format(time, "{YYYY}-{M}-{D} {h24}:{m}:{s}")
+    result
+  end
+
 end
