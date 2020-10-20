@@ -8,7 +8,8 @@ defmodule Theme01Web.Router do
   scope "/api", Theme01Web do
     pipe_through :api
     resources "/users", UserController
-    resources "/clocks", ClockController 
+    get "/clocks/:userID", ClockController, :show
+    post "/clocks/:userID", ClockController, :create
     resources "/workingtimes", WorkingTimeController 
   end
 
