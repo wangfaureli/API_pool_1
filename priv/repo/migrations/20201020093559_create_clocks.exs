@@ -4,7 +4,7 @@ defmodule Theme01.Repo.Migrations.CreateClocks do
   def change do
     create table(:clocks) do
       add :time, :utc_datetime, null: false
-      add :status, :boolean, default: false, null: false
+      add :status, :boolean, default: true, null: false
       add :user_id, references(:users, on_delete: :nothing), null: false
       
       timestamps()
