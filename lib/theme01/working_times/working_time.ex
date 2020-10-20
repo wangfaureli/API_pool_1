@@ -16,7 +16,5 @@ defmodule Theme01.WorkingTimes.WorkingTime do
     working_time
     |> cast(attrs, [:start, :end, :user_id])
     |> validate_required([:start, :end, :user_id])
-    # |> validate_format(:start, ~r/\d{4}-[0-1]\d-[0-3]\d [0-2]\d:[0-6]\d:[0-6]\d/, [message: "Please input a valid dateFormat"])
-    # |> validate_format(:end, ~r/\d{4}-[0-1]\d-[0-3]\d [0-2]\d:[0-6]\d:[0-6]\d/, [message: "Please input a valid dateFormat"])
   end
 end
