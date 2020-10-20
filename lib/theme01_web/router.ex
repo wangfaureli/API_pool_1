@@ -7,6 +7,7 @@ defmodule Theme01Web.Router do
 
   scope "/api", Theme01Web do
     pipe_through :api
+    resources "/users", UserController
   end
 
   # Enables LiveDashboard only for development
