@@ -14,8 +14,7 @@ defmodule Theme01.Clocking.Clock do
   @doc false
   def changeset(clock, attrs) do
     clock
-    |> cast(attrs, [:time, :status, :user_id])
-    |> validate_required([:time, :status, :user_id])
-
+    |> cast(attrs, [:time, :status])
+    |> validate_required([:time, :status])
   end
 end

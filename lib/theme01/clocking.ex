@@ -17,10 +17,16 @@ defmodule Theme01.Clocking do
       [%Clock{}, ...]
 
   """
-  def list_clocks do
-    Repo.all(Clock)
+  def list_clock(user_id) do
+    Clock
+    |> with_user(user_id)
+    |> Repo.all()
   end
 
+  def with_user(query, user_id) do
+    query 
+    |> where([c], c.user_id == ^user_id)
+  end
   @doc """
   Gets a single clock.
 
@@ -49,9 +55,10 @@ defmodule Theme01.Clocking do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_clock(attrs \\ %{}) do
+  def create_clock(attrs \\ %{}, user_id) do
     %Clock{}
     |> Clock.changeset(attrs)
+    |> Ecto.Changeset.cast(user_id, [:user_id])
     |> Repo.insert()
   end
 
