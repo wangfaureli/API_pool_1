@@ -12,7 +12,7 @@ defmodule Theme01Web.WorkingTimeView do
 
   def render("working_time.json", %{working_time: working_time}) do
     %{id: working_time.id,
-      start: working_time.start,
-      end: working_time.end}
+      start: Theme01.WorkingTimes.get_time(working_time.start),
+      end: Theme01.WorkingTimes.get_time(working_time.end)}
   end
 end
