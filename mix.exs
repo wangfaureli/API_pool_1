@@ -44,7 +44,8 @@ defmodule Theme01.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:filterable, "~> 0.7.3"},
-      {:timex, "~> 3.6"}
+      {:timex, "~> 3.6"},
+      {:cors_plug, "~> 2.0.2"}
     ]
   end
 

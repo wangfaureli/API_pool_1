@@ -2,6 +2,7 @@ defmodule Theme01Web.Router do
   use Theme01Web, :router
 
   pipeline :api do
+    plug CORSPlug, origin: ["http://localhost:8080", "http://localhost:8081"]
     plug :accepts, ["json"]
   end
 
