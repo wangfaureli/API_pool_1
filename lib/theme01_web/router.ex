@@ -9,9 +9,12 @@ defmodule Theme01Web.Router do
   scope "/api", Theme01Web do
     pipe_through :api
     resources "/users", UserController
+    resources "/workingtimes", WorkingTimeController, only: [:update, :delete]
+    get "/workingtimes/:userID", WorkingTimeController, :index
+    get "/workingtimes/:userID/:id", WorkingTimeController, :index
+    post "/workingtimes/:userID", WorkingTimeController, :create
     get "/clocks/:userID", ClockController, :show
-    post "/clocks/:userID", ClockController, :create
-    resources "/workingtimes", WorkingTimeController 
+    post "/clocks/:userID", ClockController, :create 
   end
 
   # Enables LiveDashboard only for development

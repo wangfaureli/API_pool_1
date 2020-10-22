@@ -1,7 +1,8 @@
 defmodule Theme01.WorkingTimes.WorkingTime do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Theme01.Acounts.User
+  alias Theme01.Acount.User
+  alias Theme01.Repo
   
   schema "workingtimes" do
     field :end, :utc_datetime
@@ -14,7 +15,8 @@ defmodule Theme01.WorkingTimes.WorkingTime do
   @doc false
   def changeset(working_time, attrs) do
     working_time
-    |> cast(attrs, [:start, :end, :user_id])
-    |> validate_required([:start, :end, :user_id])
+    |> Repo.preload(:user)
+    |> cast(attrs, [:start, :end])
+    |> validate_required([:start, :end])
   end
 end
