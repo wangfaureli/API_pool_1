@@ -17,8 +17,62 @@ defmodule Theme01.WorkingTimes do
       [%WorkingTime{}, ...]
 
   """
-  def list_workingtimes do
-    Repo.all(WorkingTime)
+  def list_workingtimes(%{"user_id" => user_id, "id" => id}) do
+    WorkingTime
+    |> with_user(user_id)
+    |> with_id(id)
+    |> Repo.one()
+  end
+
+  def with_id(query, id) do
+    query
+    |> where([w], w.id == ^id)
+  end
+
+  def list_workingtimes(%{"user_id" => user_id, "end" => the_end, "start" => the_start}) do
+    WorkingTime
+    |> with_user(user_id)
+    |> in_times(%{"end" => the_end, "start" => the_start})
+    |> Repo.all()
+  end
+
+  def list_workingtimes(%{"user_id" => user_id, "end" => the_end}) do
+    WorkingTime
+    |> with_user(user_id)
+    |> in_times(%{"end" => the_end})
+    |> Repo.all()
+  end
+
+  def list_workingtimes(%{"user_id" => user_id, "start" => the_start}) do
+    WorkingTime
+    |> with_user(user_id)
+    |> in_times(%{"start" => the_start})
+    |> Repo.all()
+  end
+
+    
+  def list_workingtimes(%{"user_id" => user_id}) do
+    WorkingTime
+    |> with_user(user_id)
+    |> Repo.all()
+  end
+
+    
+  def in_times(query, %{"end" => the_end, "start" => the_start}) do
+    query
+    |> where([w], w.start > ^the_start)
+    |> where([w], w.end < ^the_end)
+  end
+  
+  def in_times(query, %{"start" => the_start}) do
+    query
+    |> where([w], w.start > ^the_start)
+    
+  end
+
+  def in_times(query, %{"end" => the_end}) do
+    query
+    |> where([w], w.end < ^the_end)
   end
 
   @doc """
@@ -35,7 +89,11 @@ defmodule Theme01.WorkingTimes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_working_time!(id), do: Repo.get!(WorkingTime, id)
+  def get_working_time!(id) do
+    WorkingTime
+    |> Repo.get!(id)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a working_time.
@@ -49,9 +107,10 @@ defmodule Theme01.WorkingTimes do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_working_time(attrs \\ %{}) do
+  def create_working_time(attrs \\ %{}, user_id) do
     %WorkingTime{}
     |> WorkingTime.changeset(attrs)
+    |> Ecto.Changeset.cast(user_id, [:user_id])
     |> Repo.insert()
   end
 
@@ -107,4 +166,20 @@ defmodule Theme01.WorkingTimes do
     result
   end
 
+  def with_user(query, user_id) do
+    query
+    |> where([c], c.user_id == ^user_id)
+  end
+
+  def get_clocks_by_user_id(user_id) do
+    Clock
+    |> with_user(user_id)
+    |> Repo.all()
+  end
+
+  def get_working_times_by_user_id(user_id) do
+    WorkingTime
+    |> with_user(user_id)
+    |> Repo.all()
+  end
 end
